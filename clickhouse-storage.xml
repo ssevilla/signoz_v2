@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<clickhouse>
+<storage_configuration>
+    <disks>
+      <!--
+          default disk is special, it always
+          exists even if not explicitly
+          configured here, but you can't change
+          it's path here (you should use <path>
+          on top level config instead)
+      -->
+      <default>
+         <!--
+             you can reserve some amount of free space
+             on any disk (including default) by adding
+             keep_free_space_bytes tag
+         -->
+         <keep_free_space_bytes>1024</keep_free_space_bytes>
+      </default>
+
+      <mnt_f>
+         <!--
+         disk path must end with a slash,
+         folder should be writable for clickhouse user
+         -->
+         <path>/mnt/f/clickhouse/</path>
+      </mnt_f>
+    </disks>
+    <policies>
+      <mnt_f_only> <!-- name for new storage policy -->
+        <volumes>  
+          <mnt_f_volume> <!-- name of volume -->
+            <!-- 
+                we have only one disk in that volume  
+                and we reference here the name of disk
+                as configured above in <disks> section
+            -->
+            <disk>mnt_f</disk>
+          </mnt_f_volume>
+        </volumes>
+      </mnt_f_only>
+    </policies>
+  </storage_configuration>
+</clickhouse>
